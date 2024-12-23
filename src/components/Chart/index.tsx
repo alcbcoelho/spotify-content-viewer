@@ -41,17 +41,20 @@ export default function Chart({ topArtists, numberOfGenresToDisplay }: Props) {
 
   return (
     <S.ChartContainer>
-      <BarChart
-        className="tw-mb-8"
-        colors={chartColors}
-        data={barChartData}
-        numberOfGenresToDisplay={numberOfGenresToDisplay || barChartData.length}
-      />
-      <PieChart
-        colors={chartColors}
-        data={pieChartData}
-        className={collapse ? 'tw-row-span-2' : ''} //
-      />
+      <div className="chart-container">
+        <BarChart
+          colors={chartColors}
+          data={barChartData}
+          numberOfGenresToDisplay={
+            numberOfGenresToDisplay || barChartData.length
+          }
+        />
+        <PieChart
+          colors={chartColors}
+          data={pieChartData}
+          className={collapse ? 'tw-row-span-2' : ''} //
+        />
+      </div>
       <LegendContainer
         data={legendData}
         getLegendDataArgs={[topArtists, numberOfGenresToDisplay, true]}

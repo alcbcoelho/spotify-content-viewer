@@ -39,7 +39,7 @@ export default function PieChart({ className, colors, data }: Props) {
 
   return (
     <S.PieContainer className={`${className} spring-up`}>
-      <div className="rotate">
+      <div className="tw-h-full rotate">
         <VictoryPie
           padding={0}
           data={data}

@@ -22,9 +22,9 @@ function getLegendIconCSSRules(colorArray: string[]) {
 }
 
 export const ChartContainer = styled.div`
-  display: grid;
-  grid-template-columns: 52% 48%;
-  gap: 32px;
+  // display: grid;
+  // grid-template-columns: 52% 48%;
+  // gap: 32px;
 
   .spring-up {
     animation-name: spring-up;
@@ -36,37 +36,41 @@ export const ChartContainer = styled.div`
     animation-duration: 0.5s;
   }
 
-  .fade-out {
-    animation-name: fade-out;
-    animation-duration: 0.5s;
-    animation-delay: 1s;
-  }
-
   .legend-container--default-width {
     width: max-content;
     margin: 0 auto;
   }
 
-  // div {
-  //   border: 1px red solid; //
-  // }
+  div {
+    // border: 1px red solid; //
+  }
+
+  .chart-container {
+    display: grid;
+    grid-template-columns: 52% auto;
+    column-gap: 32px;
+    margin-bottom: 32px;
+    align-items: stretch;
+  }
 `;
 
 export const PieContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: center;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: stretch;
+  // justify-content: center;
 
-  width: 100%;
+  // width: 100%;
 `;
 
 export const LegendContainer = styled.div<LegendContainerProps>`
   position: relative;
   display: grid;
-  grid-column: ${({ collapseLessPlayedGenres }) =>
-    collapseLessPlayedGenres ? '' : 'span 2 / span 2'};
+  grid-column: span 2 / span 2;
   grid-template-columns: 1fr 1fr;
+  max-width: ${({ collapseLessPlayedGenres }) =>
+    collapseLessPlayedGenres ? '52%' : '100%'};
+  transition: max-width ease-in-out 0.75s;
 
   border: 2px ${colors.white} solid;
   border-radius: 8px;
@@ -145,6 +149,7 @@ export const LegendContainer = styled.div<LegendContainerProps>`
   .show {
     opacity: 1;
     display: block;
+    transition: opacity 0.15s 0.75s, display 0.15s 0.75s allow-discrete;
   }
 
   @starting-style {
@@ -164,5 +169,6 @@ export const ExpandButton = styled.button`
 export const BarChart = styled.div`
   background-color: ${colors.gray.darker};
   border-radius: 8px;
+  width: 100%;
   height: 100%;
 `;

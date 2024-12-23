@@ -22,9 +22,9 @@ export default function BarChart({
   className
 }: Props) {
   const dispatch = useDispatch();
-  const collapse = useSelector(
-    (state: RootState) => state.misc.chart.collapseLessPlayedGenres
-  );
+  // const collapse = useSelector(
+  //   (state: RootState) => state.misc.chart.collapseLessPlayedGenres
+  // );
 
   const getMaxDomainY = (data: BarChartItem[]) => {
     return data
@@ -37,9 +37,9 @@ export default function BarChart({
     <S.BarChart className={`${className} spring-up`}>
       <VictoryChart
         padding={{
-          top: collapse ? 40 : 0,
+          top: 40,
           right: 64,
-          bottom: collapse ? 8 : 0,
+          bottom: 0,
           left: 100
         }}
         domain={{
@@ -52,6 +52,7 @@ export default function BarChart({
         // }}
         // domainPadding={{ x: 30 }}
         desc={`Top ${numberOfGenresToDisplay} most frequent genres amongst most listened artists`}
+        height={400}
       >
         <VictoryAxis
           crossAxis
