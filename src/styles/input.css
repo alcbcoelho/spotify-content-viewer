@@ -1,0 +1,16 @@
+@tailwind base;
+
+@keyframes spring-up {
+  0% {
+    transform: scale(50%, 50%);
+  }
+  95% {
+    transform: scale(100.75%, 100.75%);
+  }
+  100% {
+    transform: scale(100%, 100%);
+  }
+}
+
+@tailwind components;
+@tailwind utilities;
