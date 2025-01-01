@@ -87,22 +87,6 @@ export default function PieChart({ className, colors, data, title }: Props) {
                     mutation: () => ({ text: '' })
                   }
                 ]
-                // onHoveredChartItem: () => [
-                //   {
-                //     target: 'data',
-                //     mutation: ({ style }) => {
-                //       return {
-                //         style: { ...style, stroke: c.white }
-                //       };
-                //     }
-                //   },
-                //   {
-                //     target: 'labels',
-                //     mutation: ({ datum }) => ({
-                //       text: `${datum.y}%`
-                //     })
-                //   }
-                // ]
               }
             },
             {
@@ -120,13 +104,6 @@ export default function PieChart({ className, colors, data, title }: Props) {
                     mutation: () => ({ text: '' })
                   }
                 ]
-                // onHoveredChartItem: () => [
-                //   {
-                //     mutation: ({ datum }) => ({
-                //       text: `${datum.y}%`
-                //     })
-                //   }
-                // ]
               }
             }
           ]}

@@ -15,8 +15,6 @@ type Props = {
   color: string;
 };
 
-// TODO: Botãozinho tá dando uns bugs de vez em quando (aparece filled quando não deveria etc); resolver (SUSPEITO que tenha a ver com useMemo/useCallback)
-
 export default function OtherGenresButton(props: Props) {
   const [highlightIcon, setHighlightIcon] = useState<boolean>(false);
 

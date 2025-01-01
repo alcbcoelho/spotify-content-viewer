@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <FlexContainer className="full-height">
       <h2 className="title text--display">
-        View your most played artists.{' '}
+        View your most played content.{' '}
         <span className="text--green">With style.</span>
       </h2>
       <Button

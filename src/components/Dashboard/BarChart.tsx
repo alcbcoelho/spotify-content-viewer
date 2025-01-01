@@ -1,12 +1,6 @@
 import { useRef } from 'react';
-import {
-  VictoryAxis,
-  VictoryBar,
-  VictoryChart,
-  VictoryTooltip,
-  VictoryLabel
-} from 'victory';
-import { useDispatch, useSelector } from 'react-redux';
+import { VictoryAxis, VictoryBar, VictoryChart, VictoryTooltip } from 'victory';
+import { useDispatch } from 'react-redux';
 
 import * as S from './ChartStyle';
 import DownloadButton from './DownloadButton';
@@ -34,7 +28,6 @@ export default function BarChart({
   className
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
-  const filterOutRef = useRef<HTMLButtonElement>(null);
   const dispatch = useDispatch();
 
   const getMaxDomainY = (data: BarChartItem[]) => {
@@ -65,21 +58,9 @@ export default function BarChart({
             x: [0, numberOfGenresToDisplay],
             y: [0, getMaxDomainY(data)]
           }}
-          // maxDomain={{
-          //   x: 5,
-          //   y: getMaxDomainY(data)
-          // }}
-          // domainPadding={{ x: 30 }}
           title={title}
           height={400}
         >
-          {/* <VictoryLabel
-            text={title}
-            x={(ref.current?.clientWidth as number) / 2.125}
-            y={32}
-            textAnchor="middle"
-            style={{ fontWeight: '700', fill: c.white }}
-          /> */}
           <VictoryAxis
             crossAxis
             tickFormat={(tick) => capitalizeStrings(tick.split(' '))}

@@ -62,7 +62,6 @@ export default function Chart({ topArtists, numberOfGenresToDisplay }: Props) {
         <PieChart
           colors={chartColors}
           data={pieChartData}
-          className={collapse ? 'tw-row-span-2' : ''} //
           title="Top genres as fractions of genre pool"
         />
       </div>

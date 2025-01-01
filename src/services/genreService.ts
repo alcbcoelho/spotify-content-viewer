@@ -24,10 +24,7 @@ export const DEFAULT_CHART_COLOR = colors.gray.darker;
 
 export const chartColors: string[] = Object.values(colors.green); // limit = 5
 
-export const getTopGenresData = (
-  topArtists: Artist[]
-  // limit?: number
-): GenreTuple[] => {
+export const getTopGenresData = (topArtists: Artist[]): GenreTuple[] => {
   const genresPerArtist = topArtists.map((i) => i.genres);
 
   const map = new Map<string, number>();
@@ -66,7 +63,6 @@ export const getPieChartGenreData = (
   collapseLessPlayedGenres: boolean
 ): PieChartItem[] => {
   const data = getTopGenresData(topArtists);
-  console.log('Genre tuples: ', data); //
   const total = getTotalOccurrencesOfTopGenres(data);
 
   const [topGenres, otherGenres] = balcanizeGenreData(

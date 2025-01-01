@@ -25,88 +25,6 @@ function getLegendIconCSSRules(colorArray: string[]) {
   return cssRule;
 }
 
-export const Dashboard = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  .spring-up {
-    animation-name: spring-up;
-    animation-duration: 0.5s;
-  }
-
-  .rotate {
-    animation-name: rotate;
-    animation-duration: 0.5s;
-  }
-
-  .legend-container--default-width {
-    width: max-content;
-    margin: 0 auto;
-  }
-
-  // div {
-  //   border: 1px yellow solid; //
-  // }
-
-  // > div {
-  //   border: 1px red solid; //
-  // }
-
-  .chart-container {
-    display: grid;
-    grid-template-columns: 52% auto;
-    column-gap: 32px;
-    margin-bottom: 32px;
-
-    h3 {
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-
-      text-align: center;
-      font-family: ${font.family.display};
-      margin-top: 16px;
-
-      &::before,
-      &::after {
-        margin-top: 12px;
-        display: inline-block;
-        width: 80px;
-        height: 1px;
-        content: '';
-        // background-color: ${colors.white};
-      }
-
-      &::before {
-        background-image: linear-gradient(
-          90deg,
-          ${colors.white + '00'},
-          ${colors.white} 50%
-        );
-        margin-right: 8px;
-      }
-
-      &::after {
-        background-image: linear-gradient(
-          90deg,
-          ${colors.white} 50%,
-          ${colors.white + '00'}
-        );
-        margin-left: 8px;
-      }
-    }
-
-    @media screen and (max-width: ${breakpoints.mobile.maxWidth}) {
-      grid-template-columns: none;
-      column-gap: none;
-    }
-  }
-
-  @media screen and (max-width: ${breakpoints.mobile.maxWidth}) {
-    display: block;
-  }
-`;
-
 export const PieContainer = styled.div<PieContainerProps>`
   display: grid;
   grid-template-rows: 80px auto;
@@ -114,15 +32,7 @@ export const PieContainer = styled.div<PieContainerProps>`
   h3 {
     max-width: ${({ titleMaxWidth }) => titleMaxWidth + 'px' || 'none'};
     width: 100%;
-    margin: auto;
-  }
-
-  @media screen and (max-width: ${breakpoints.mobile.maxWidth}) {
-    grid-template-rows: none;
-    h3 {
-      max-width: none;
-      margin: 16px 0;
-    }
+    margin: 0 auto;
   }
 `;
 
@@ -161,14 +71,100 @@ export const BarChart = styled.div`
   }
 
   h3 {
-    margin: auto 0;
+    height: 100%;
+  }
+`;
+
+export const Dashboard = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  .spring-up {
+    animation-name: spring-up;
+    animation-duration: 0.5s;
+  }
+
+  .rotate {
+    animation-name: rotate;
+    animation-duration: 0.5s;
+  }
+
+  .legend-container--default-width {
+    width: max-content;
+    margin: 0 auto;
+  }
+
+  div {
+    // border: 1px yellow solid; //
+  }
+
+  > div {
+    // border: 1px red solid; //
+  }
+
+  .chart-container {
+    display: grid;
+    grid-template-columns: 52% auto;
+    column-gap: 32px;
+    margin-bottom: 32px;
+
+    h3 {
+      // border: 1px purple solid; //
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+      font-family: ${font.family.display};
+
+      &::before,
+      &::after {
+        margin-top: 12px;
+        display: inline-block;
+        width: 80px;
+        height: 1px;
+        content: '';
+      }
+
+      &::before {
+        background-image: linear-gradient(
+          90deg,
+          ${colors.white + '00'},
+          ${colors.white} 50%
+        );
+        margin-right: 8px;
+      }
+
+      &::after {
+        background-image: linear-gradient(
+          90deg,
+          ${colors.white} 50%,
+          ${colors.white + '00'}
+        );
+        margin-left: 8px;
+      }
+    }
+
+    @media screen and (max-width: ${breakpoints.mobile.maxWidth}) {
+      grid-template-columns: none;
+      column-gap: none;
+
+      > div {
+        grid-template-rows: none;
+
+        h3 {
+          padding: 16px;
+        }
+      }
+
+      ${PieContainer} h3 {
+        max-width: none;
+      }
+    }
   }
 
   @media screen and (max-width: ${breakpoints.mobile.maxWidth}) {
-    grid-template-rows: none;
-    h3 {
-      margin-top: 16px;
-    }
+    display: block;
   }
 `;
 
@@ -231,7 +227,7 @@ export const LegendContainer = styled.div<LegendContainerProps>`
       padding: 16px 20px;
 
       li::before {
-        border-color: ${colors.gray.light}; //
+        border-color: ${colors.gray.light};
         background-color: ${DEFAULT_CHART_COLOR};
       }
 

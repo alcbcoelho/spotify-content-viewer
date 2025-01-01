@@ -5,14 +5,14 @@ import styled from 'styled-components';
 import { GRID_ITEM_QUANTITY } from '../components/TabContent/ItemsGrid';
 import Header from '../components/Header';
 import TabContent from '../components/TabContent';
-import Chart from '../components/Chart';
+import Chart from '../components/Dashboard';
 import Loader from '../components/Loader';
 import { Container } from '../containers';
 import {
   useGetCurrentUsersDataQuery,
   useGetTopItemsQuery,
   RequestBody
-} from '../store/apiSlices';
+} from '../store/apiSlice';
 import { colors, font, breakpoints } from '../styles/global';
 
 type Tabs = 'artists' | 'tracks' | 'genres';
@@ -26,8 +26,6 @@ const REQUEST_PARAMS: Pick<RequestBody, 'params'> = {
 export const CONTAINER_ID = 'container';
 
 const Navbar = styled.nav`
-  // border-bottom: 1px ${colors.green.default} solid;
-
   ul::after {
     display: block;
     width: 100%;
@@ -146,7 +144,6 @@ export default function Viewer() {
         </span>
       </h2>
 
-      {/* Com animação de spring-up (funciona melhor) TODO: Refatorar isso aqui */}
       {activeTab === 'artists' && (
         <TabContent type="artists" data={topArtists.data as TopItems} />
       )}
@@ -159,8 +156,6 @@ export default function Viewer() {
           numberOfGenresToDisplay={5}
         />
       )}
-
-      {/* <TabContent type={activeTab} /> // sem animação de spring-up (as vezes a página inicia em branco) */}
     </>
   );
 

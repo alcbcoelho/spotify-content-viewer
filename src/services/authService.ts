@@ -1,5 +1,4 @@
 const CLIENT_ID = '382c808854a74b2fa89465852f1410ee';
-***REMOVED***
 const SCOPE =
   'user-read-email user-top-read user-follow-read user-read-recently-played';
 const REDIRECT_URI = `${location.origin}/viewer`;
