@@ -8,16 +8,14 @@ import { colors, font } from '../styles/global';
 const Style = styled.header`
   padding: 16px;
   font-size: ${font.size.default};
-  //   color: ${colors.green.default};
   background-color: ${colors.gray.default};
-  margin-bottom: 16px;
 
   a {
     color: ${colors.white};
     transition: all 0.2s;
 
     &:hover {
-      color: ${colors.green.light};
+      color: ${colors.green.default};
     }
   }
 

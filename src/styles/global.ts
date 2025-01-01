@@ -2,6 +2,7 @@ import { createGlobalStyle } from 'styled-components';
 
 export const colors = {
   gray: {
+    light: '#616161',
     default: '#3b3b3b',
     dark: '#0f0f0f',
     darker: '#050505'
@@ -19,6 +20,8 @@ export const colors = {
 
 export const font = {
   size: {
+    micro: '0.35rem',
+    extraSmall: '0.5rem',
     small: '0.75rem',
     default: '1rem',
     medium: '1.25rem',
@@ -28,6 +31,25 @@ export const font = {
   family: {
     default: 'sans-serif',
     display: '"DM Sans", sans-serif'
+  }
+};
+
+type Breakpoints = {
+  mobile: Breakpoint;
+  tablet: Breakpoint;
+  default: Breakpoint;
+};
+
+export const breakpoints: Breakpoints = {
+  mobile: {
+    maxWidth: '767px'
+  },
+  tablet: {
+    minWidth: '768px',
+    maxWidth: '1023px'
+  },
+  default: {
+    minWidth: '1024px'
   }
 };
 

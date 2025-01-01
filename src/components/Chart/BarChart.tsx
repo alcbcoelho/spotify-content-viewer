@@ -1,30 +1,41 @@
-import { VictoryAxis, VictoryBar, VictoryChart, VictoryTooltip } from 'victory';
+import { useRef } from 'react';
+import {
+  VictoryAxis,
+  VictoryBar,
+  VictoryChart,
+  VictoryTooltip,
+  VictoryLabel
+} from 'victory';
 import { useDispatch, useSelector } from 'react-redux';
 
 import * as S from './ChartStyle';
+import DownloadButton from './DownloadButton';
 import { BarChartItem } from '../../services/genreService';
 import { colors as c, font } from '../../styles/global';
-import { capitalizeStrings } from '../../utils';
+import { capitalizeStrings, hiphenize } from '../../utils';
 import { setHoveredItemIndex } from '../../store/miscSlice';
-import { RootState } from '../../store';
 
 type Props = {
+  title: string;
   colors: string[];
   data: BarChartItem[];
   numberOfGenresToDisplay: number;
   className?: string;
 };
 
+const PRINT_ID = 'bar-chart';
+const FILTER_OUT_ID = 'download-btn';
+
 export default function BarChart({
+  title,
   colors,
   data,
   numberOfGenresToDisplay,
   className
 }: Props) {
+  const ref = useRef<HTMLDivElement>(null);
+  const filterOutRef = useRef<HTMLButtonElement>(null);
   const dispatch = useDispatch();
-  // const collapse = useSelector(
-  //   (state: RootState) => state.misc.chart.collapseLessPlayedGenres
-  // );
 
   const getMaxDomainY = (data: BarChartItem[]) => {
     return data
@@ -33,150 +44,174 @@ export default function BarChart({
       .sort((a, b) => b - a)[0];
   };
 
+  const fileName = hiphenize(title.toLowerCase());
+
   return (
-    <S.BarChart className={`${className} spring-up`}>
-      <VictoryChart
-        padding={{
-          top: 40,
-          right: 64,
-          bottom: 0,
-          left: 100
-        }}
-        domain={{
-          x: [0, numberOfGenresToDisplay],
-          y: [0, getMaxDomainY(data)]
-        }}
-        // maxDomain={{
-        //   x: 5,
-        //   y: getMaxDomainY(data)
-        // }}
-        // domainPadding={{ x: 30 }}
-        desc={`Top ${numberOfGenresToDisplay} most frequent genres amongst most listened artists`}
-        height={400}
-      >
-        <VictoryAxis
-          crossAxis
-          tickFormat={(tick) => capitalizeStrings(tick.split(' '))}
-          style={{
-            tickLabels: {
-              fill: c.white,
-              fontSize: 12,
-              fontFamily: font.family.default
-            },
-            axis: {
-              stroke: 'transparent'
-            },
-            axisLabel: {
-              fontSize: 10,
-              fontFamily: font.family.display,
-              fill: c.gray.default,
-              padding: 80
-            }
+    <S.BarChart
+      id={PRINT_ID}
+      className={className ? `${className} spring-up` : 'spring-up'}
+      ref={ref}
+    >
+      <h3>{title}</h3>
+      <div>
+        <VictoryChart
+          padding={{
+            top: 32,
+            right: 64,
+            bottom: 32,
+            left: 100
           }}
-          label="Genre"
-        />
-        <VictoryAxis
-          dependentAxis
-          tickFormat={(tick) => Math.trunc(tick)}
-          offsetY={48}
-          style={{
-            tickLabels: {
-              fill: c.white,
-              fontSize: 12,
-              fontFamily: font.family.default
-            },
-            axis: {
-              stroke: 'transparent'
-            },
-            axisLabel: {
-              fontSize: 10,
-              fontFamily: font.family.display,
-              fill: c.gray.default,
-              padding: 30
-            }
+          domain={{
+            x: [0, numberOfGenresToDisplay],
+            y: [0, getMaxDomainY(data)]
           }}
-          label="Number of occurrences of genre amongst top played artists"
-        />
-        <VictoryBar
-          horizontal
-          data={data}
-          style={{
-            data: {
-              fill: ({ index }) =>
-                colors.filter((i) => i !== c.gray.darker).reverse()[
-                  index as number
-                ]
-            }
-          }}
-          cornerRadius={2}
-          labelComponent={
-            <VictoryTooltip
-              flyoutStyle={{
-                stroke: 'none',
-                fill: c.white
-              }}
-              flyoutWidth={24}
-              flyoutHeight={24}
-              style={{
+          // maxDomain={{
+          //   x: 5,
+          //   y: getMaxDomainY(data)
+          // }}
+          // domainPadding={{ x: 30 }}
+          title={title}
+          height={400}
+        >
+          {/* <VictoryLabel
+            text={title}
+            x={(ref.current?.clientWidth as number) / 2.125}
+            y={32}
+            textAnchor="middle"
+            style={{ fontWeight: '700', fill: c.white }}
+          /> */}
+          <VictoryAxis
+            crossAxis
+            tickFormat={(tick) => capitalizeStrings(tick.split(' '))}
+            style={{
+              tickLabels: {
+                fill: c.white,
                 fontSize: 12,
-                color: c.black
-              }}
-              pointerWidth={8}
-            />
-          }
-          labels={({ datum }) => datum.y}
-          events={[
-            {
-              target: 'data',
-              eventHandlers: {
-                onMouseOver: () => [
-                  {
-                    mutation: ({ index, style }) => {
-                      dispatch(
-                        setHoveredItemIndex(numberOfGenresToDisplay - 1 - index)
-                      );
-                      return {
-                        style: { ...style, stroke: c.white, strokeWidth: 1 }
-                      };
+                fontFamily: font.family.default
+              },
+              axis: {
+                stroke: 'transparent'
+              },
+              axisLabel: {
+                fontSize: 10,
+                fontFamily: font.family.display,
+                fill: c.gray.light,
+                padding: 80
+              }
+            }}
+            label="Genre"
+          />
+          <VictoryAxis
+            dependentAxis
+            tickFormat={(tick) => Math.trunc(tick)}
+            offsetY={72}
+            style={{
+              tickLabels: {
+                fill: c.white,
+                fontSize: 12,
+                fontFamily: font.family.default
+              },
+              axis: {
+                stroke: 'transparent'
+              },
+              axisLabel: {
+                fontSize: 10,
+                fontFamily: font.family.display,
+                fill: c.gray.light,
+                padding: 40
+              }
+            }}
+            label="Number of occurrences of genre amongst top played artists"
+          />
+          <VictoryBar
+            horizontal
+            data={data}
+            style={{
+              data: {
+                fill: ({ index }) =>
+                  colors.filter((i) => i !== c.gray.darker).reverse()[
+                    index as number
+                  ]
+              }
+            }}
+            cornerRadius={2}
+            labelComponent={
+              <VictoryTooltip
+                flyoutStyle={{
+                  stroke: 'none',
+                  fill: c.white
+                }}
+                flyoutWidth={24}
+                flyoutHeight={24}
+                style={{
+                  fontSize: 12,
+                  color: c.black
+                }}
+                pointerWidth={8}
+              />
+            }
+            labels={({ datum }) => datum.y}
+            events={[
+              {
+                target: 'data',
+                eventHandlers: {
+                  onMouseOver: () => [
+                    {
+                      mutation: ({ index, style }) => {
+                        dispatch(
+                          setHoveredItemIndex(
+                            numberOfGenresToDisplay - 1 - index
+                          )
+                        );
+                        return {
+                          style: { ...style, stroke: c.white, strokeWidth: 1 }
+                        };
+                      }
+                    },
+                    {
+                      target: 'labels',
+                      mutation: () => ({
+                        active: true
+                      })
                     }
-                  },
-                  {
+                  ],
+                  onMouseOut: () => [
+                    {
+                      mutation: () => {
+                        dispatch(setHoveredItemIndex(undefined));
+                      }
+                    },
+                    {
+                      target: 'labels',
+                      mutation: () => ({
+                        active: undefined
+                      })
+                    }
+                  ],
+                  onFocus: () => ({
                     target: 'labels',
                     mutation: () => ({
                       active: true
                     })
-                  }
-                ],
-                onMouseOut: () => [
-                  {
-                    mutation: () => {
-                      dispatch(setHoveredItemIndex(undefined));
-                    }
-                  },
-                  {
+                  }),
+                  onBlur: () => ({
                     target: 'labels',
                     mutation: () => ({
                       active: undefined
                     })
-                  }
-                ],
-                onFocus: () => ({
-                  target: 'labels',
-                  mutation: () => ({
-                    active: true
                   })
-                }),
-                onBlur: () => ({
-                  target: 'labels',
-                  mutation: () => ({
-                    active: undefined
-                  })
-                })
+                }
               }
-            }
-          ]}
+            ]}
+          />
+        </VictoryChart>
+        <DownloadButton
+          id={FILTER_OUT_ID}
+          elementToPrintId={PRINT_ID}
+          elementToFilterOutId={FILTER_OUT_ID}
+          fileName={fileName}
         />
-      </VictoryChart>
+      </div>
     </S.BarChart>
   );
 }

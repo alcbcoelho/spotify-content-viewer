@@ -1,36 +1,30 @@
+import { forwardRef, useState, useEffect } from 'react';
+
 import styled from 'styled-components';
-import { colors, font } from '../../styles/global';
-import { forwardRef } from 'react';
+
+import { CONTAINER_ID } from '../../pages/Viewer';
+import { breakpoints, colors, font } from '../../styles/global';
 
 type Props = {
   data: TopItems;
   type: 'artists' | 'tracks';
+  onResize?: React.ReactEventHandler<HTMLDivElement>;
 };
 
 type SubcomponentProps = Pick<Props, 'type'> & {
   item: Artist | Track;
 };
 
-export const GRID_ITEM_SIZE = 320;
 export const GRID_ITEM_QUANTITY = 9;
+const numberOfColumns = 3;
 
 const GridStyle = styled.div`
-  max-width: calc(${GRID_ITEM_SIZE}px * 3);
   width: 100%;
-  // margin: 0 auto;
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: repeat(${numberOfColumns}, auto);
 
   animation-name: spring-up;
   animation-duration: 0.375s;
-
-  border-radius: 16px;
-  transition: background-color 0.2s, box-shadow 0.2s;
-
-  // &:hover {
-  //   background-color: ${colors.green.light};
-  //   box-shadow: 0 0 128px ${colors.green.light + '3f'};
-  // }
 
   > div {
     position: relative;
@@ -72,14 +66,14 @@ const GridStyle = styled.div`
         ${colors.black + 'e8'} 0%,
         ${colors.black + '00'} 50%
       );
-      width: ${GRID_ITEM_SIZE}px;
-      height: ${GRID_ITEM_SIZE}px;
+      width: 100%;
+      height: 100%;
       content: '';
     }
 
     img {
-      width: ${GRID_ITEM_SIZE}px;
-      height: ${GRID_ITEM_SIZE}px;
+      width: 100%;
+      height: 100%;
       display: block;
       object-fit: cover;
     }
@@ -96,25 +90,31 @@ const GridStyle = styled.div`
       p {
         font-size: ${font.size.small};
       }
+
+      @media screen and (max-width: ${breakpoints.mobile.maxWidth}) {
+        bottom: 4px;
+        right: 4px;
+        font-size: ${font.size.extraSmall};
+
+        p {
+          font-size: ${font.size.micro};
+        }
+      }
     }
   }
 `;
 
+const getClientWidthFromElement = (id: string) =>
+  document.getElementById(id)?.clientWidth;
+
 const Image = ({ item, type }: SubcomponentProps) => {
   if (type === 'artists')
-    return (
-      <img
-        src={(item as Artist).images[0].url}
-        alt={item.name}
-        title={item.name}
-      />
-    );
+    return <img src={(item as Artist).images[0].url} alt={item.name} />;
   if (type === 'tracks')
     return (
       <img
         src={(item as Track).album.images[0].url}
         alt={`${(item as Track).album.artists[0].name} - ${item.name}`}
-        title={`${(item as Track).album.artists[0].name} - ${item.name}`}
       />
     );
 };
@@ -136,15 +136,45 @@ const Caption = ({ item, type }: SubcomponentProps) => {
     );
 };
 
-const ItemsGrid = forwardRef<HTMLDivElement, Props>(({ data, type }, ref) => (
-  <GridStyle ref={ref}>
-    {data.items.map((i) => (
-      <div key={i.id}>
-        <Image item={i} type={type} />
-        <Caption item={i} type={type} />
-      </div>
-    ))}
-  </GridStyle>
-));
+const ItemsGrid = forwardRef<HTMLDivElement, Props>(({ data, type }, ref) => {
+  const [containerWidth, setContainerWidth] = useState<number | undefined>(
+    getClientWidthFromElement(CONTAINER_ID)
+  );
+
+  useEffect(() => {
+    function updateContainerWidth() {
+      const cWidth = getClientWidthFromElement(CONTAINER_ID);
+
+      if (cWidth !== containerWidth) setContainerWidth(cWidth);
+    }
+
+    updateContainerWidth();
+
+    window.addEventListener('resize', updateContainerWidth);
+    return () => window.removeEventListener('resize', updateContainerWidth);
+  }, [containerWidth]);
+
+  return (
+    <GridStyle id="grid" ref={ref}>
+      {data.items.map((i) => (
+        <div
+          id={i.id}
+          key={i.id}
+          title={
+            type === 'artists'
+              ? i.name
+              : `${(i as Track).album.artists[0].name} - ${i.name}`
+          }
+          style={{
+            height: (containerWidth as number) / numberOfColumns
+          }}
+        >
+          <Image item={i} type={type} />
+          <Caption item={i} type={type} />
+        </div>
+      ))}
+    </GridStyle>
+  );
+});
 
 export default ItemsGrid;

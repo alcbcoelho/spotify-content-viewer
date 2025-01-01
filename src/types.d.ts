@@ -113,3 +113,8 @@ type AccessTokenResponse = {
   refresh_token: string;
   scope: string;
 };
+
+type Breakpoint = {
+  minWidth?: string;
+  maxWidth?: string;
+};

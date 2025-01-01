@@ -8,6 +8,7 @@ import * as S from './ChartStyle';
 import { hiphenize } from '../../utils';
 
 type Props = {
+  title: string;
   colors: string[];
   data: PieChartItem[];
   className?: string;
@@ -34,23 +35,22 @@ const scrollToLegend = (legendId: string) => {
   legend?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 };
 
-export default function PieChart({ className, colors, data }: Props) {
+export default function PieChart({ className, colors, data, title }: Props) {
   const dispatch = useDispatch();
 
   return (
-    <S.PieContainer className={`${className} spring-up`}>
-      <div className="tw-h-full rotate">
+    <S.PieContainer
+      className={`${className} spring-up`}
+      title={title}
+      titleMaxWidth={320}
+    >
+      <h3>{title}</h3>
+      <div className="rotate">
         <VictoryPie
           padding={0}
           data={data}
           y={(datum) => datum.occurrenceCount}
-          // innerRadius={40}
-          // radius={80}
-          // padAngle={5}
-          // labelPlacement={'perpendicular'}
-          // labelIndicatorInnerOffset={5}
           labelRadius={100}
-          // labelComponent={<span className="fade-out">hey</span>}
           labels={() => ''}
           style={getPieStyle(colors)}
           events={[

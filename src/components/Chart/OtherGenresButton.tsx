@@ -47,6 +47,8 @@ export default function OtherGenresButton(props: Props) {
     <S.ExpandButton
       onMouseOver={() => setHighlightIcon(true)}
       onMouseOut={() => setHighlightIcon(false)}
+      onFocus={() => setHighlightIcon(true)}
+      onBlur={() => setHighlightIcon(false)}
       onClick={handleClick}
       title="Expand 'other' genres"
     >

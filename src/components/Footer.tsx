@@ -7,6 +7,7 @@ const Style = styled.footer`
   border-top: 1px ${colors.gray.default} dotted;
   text-align: center;
   font-size: ${font.size.small};
+  float: none;
 
   p {
     color: ${colors.gray.default};

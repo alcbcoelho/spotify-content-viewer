@@ -1,4 +1,5 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   getPieChartGenreData,
@@ -11,6 +12,7 @@ import BarChart from './BarChart';
 import LegendContainer from './LegendContainer';
 import PieChart from './PieChart';
 import { RootState } from '../../store';
+import { setCollapseLessPlayedGenres } from '../../store/miscSlice';
 
 type Props = {
   topArtists: Artist[];
@@ -18,9 +20,16 @@ type Props = {
 };
 
 export default function Chart({ topArtists, numberOfGenresToDisplay }: Props) {
+  const dispatch = useDispatch();
   const collapse = useSelector(
     (state: RootState) => state.misc.chart.collapseLessPlayedGenres
   );
+
+  useEffect(() => {
+    return () => {
+      dispatch(setCollapseLessPlayedGenres(true));
+    };
+  }, [dispatch]);
 
   const pieChartData = getPieChartGenreData(
     topArtists,
@@ -40,7 +49,7 @@ export default function Chart({ topArtists, numberOfGenresToDisplay }: Props) {
   );
 
   return (
-    <S.ChartContainer>
+    <S.Dashboard>
       <div className="chart-container">
         <BarChart
           colors={chartColors}
@@ -48,17 +57,19 @@ export default function Chart({ topArtists, numberOfGenresToDisplay }: Props) {
           numberOfGenresToDisplay={
             numberOfGenresToDisplay || barChartData.length
           }
+          title="Top 5 most played genres"
         />
         <PieChart
           colors={chartColors}
           data={pieChartData}
           className={collapse ? 'tw-row-span-2' : ''} //
+          title="Top genres as fractions of genre pool"
         />
       </div>
       <LegendContainer
         data={legendData}
         getLegendDataArgs={[topArtists, numberOfGenresToDisplay, true]}
       />
-    </S.ChartContainer>
+    </S.Dashboard>
   );
 }

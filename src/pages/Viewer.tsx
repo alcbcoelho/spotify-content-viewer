@@ -13,7 +13,7 @@ import {
   useGetTopItemsQuery,
   RequestBody
 } from '../store/apiSlices';
-import { colors } from '../styles/global';
+import { colors, font, breakpoints } from '../styles/global';
 
 type Tabs = 'artists' | 'tracks' | 'genres';
 
@@ -22,6 +22,8 @@ const REQUEST_PARAMS: Pick<RequestBody, 'params'> = {
     limit: GRID_ITEM_QUANTITY
   }
 };
+
+export const CONTAINER_ID = 'container';
 
 const Navbar = styled.nav`
   // border-bottom: 1px ${colors.green.default} solid;
@@ -36,6 +38,14 @@ const Navbar = styled.nav`
       ${colors.green.default + '00'}
     );
     content: '';
+
+    @media screen and (max-width: ${breakpoints.tablet.maxWidth}) {
+      background-image: linear-gradient(
+        90deg,
+        ${colors.green.default} 95%,
+        ${colors.green.default + '00'}
+      );
+    }
   }
 
   .nav-item {
@@ -47,6 +57,11 @@ const Navbar = styled.nav`
     border-bottom: none;
     border-radius: 8px 8px 0 0;
 
+    @media screen and (max-width: ${breakpoints.mobile.maxWidth}) {
+      font-size: ${font.size.small};
+      padding: 8px 12px;
+    }
+
     &:hover {
       color: ${colors.white};
       background-color: ${colors.gray.default};
@@ -57,6 +72,7 @@ const Navbar = styled.nav`
       color: ${colors.white};
       background-color: ${colors.green.default};
       border-color: ${colors.green.default};
+      text-shadow: 1px 1px 0 ${colors.green.dark};
 
       &:hover {
         background-color: ${colors.green.default};
@@ -90,7 +106,7 @@ export default function Viewer() {
 
   const Content = () => (
     <>
-      <h1 className="text--display tw-text-center">
+      <h1 className="text--display tw-my-8 tw-text-center">
         {userData.data?.display_name}
       </h1>
 
@@ -151,7 +167,7 @@ export default function Viewer() {
   return (
     <>
       <Header />
-      <Container>
+      <Container id={CONTAINER_ID}>
         {isLoading(
           userData.isLoading,
           topArtists.isLoading,

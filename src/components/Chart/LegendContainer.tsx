@@ -46,9 +46,11 @@ export default function LegendContainer({ data, getLegendDataArgs }: Props) {
 
   return (
     <S.LegendContainer
-      className={`spring-up`}
+      className="spring-up"
       collapseLessPlayedGenres={collapse}
+      title="Genre legend"
     >
+      <h3>Legend</h3>
       <ul>
         {staticGenresCollapsed.map((i, index) => (
           <>
@@ -62,22 +64,24 @@ export default function LegendContainer({ data, getLegendDataArgs }: Props) {
         ))}
       </ul>
       <div className={!collapse ? 'show' : ''}>
-        <h3>Other</h3>
-        <ul>
-          {otherGenres.map((i, index) => {
-            const offset = index + chartColors.length;
+        <h4>Other</h4>
+        {otherGenres.length > 1 && (
+          <ul>
+            {otherGenres.map((i, index) => {
+              const offset = index + chartColors.length;
 
-            return (
-              <li
-                key={index}
-                id={hiphenize(i.name)}
-                className={setClassName(i, offset)}
-              >
-                {i.name}
-              </li>
-            );
-          })}
-        </ul>
+              return (
+                <li
+                  key={index}
+                  id={hiphenize(i.name)}
+                  className={setClassName(i, offset)}
+                >
+                  {i.name}
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
     </S.LegendContainer>
   );
