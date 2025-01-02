@@ -114,7 +114,7 @@ const applyLimitToGenreData = (
 ): GenreTuple[] => {
   if (!limit) return data;
 
-  return data.filter((i, index) => index < limit);
+  return data.filter((_i, index) => index < limit);
 };
 
 const balcanizeGenreData = (
