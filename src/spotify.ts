@@ -6,25 +6,32 @@ const accessToken = localStorage.getItem('access_token');
 const refreshToken = localStorage.getItem('refresh_token');
 const expirationTime = localStorage.getItem('expiration_time');
 
-if (
-  accessToken &&
-  refreshToken &&
-  expirationTime &&
-  new Date().getTime() >= parseInt(expirationTime)
-) {
-  await getOrRefreshAccessToken({
-    action: 'refresh',
-    refreshToken
-  });
+async function refreshAccessToken() {
+  if (
+    accessToken &&
+    refreshToken &&
+    expirationTime &&
+    new Date().getTime() >= parseInt(expirationTime)
+  ) {
+    await getOrRefreshAccessToken({
+      action: 'refresh',
+      refreshToken
+    });
 
-  location.reload();
+    location.reload();
+  }
 }
 
-if (code && !accessToken) {
-  await getOrRefreshAccessToken({
-    action: 'get',
-    code
-  });
+async function getAccessToken() {
+  if (code && !accessToken) {
+    await getOrRefreshAccessToken({
+      action: 'get',
+      code
+    });
 
-  location.href = `${location.origin}/viewer`;
+    location.href = `${location.origin}/viewer`;
+  }
 }
+
+refreshAccessToken();
+getAccessToken();
