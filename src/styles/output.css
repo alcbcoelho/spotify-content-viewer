@@ -107,7 +107,7 @@
 }
 
 /*
-! tailwindcss v3.4.15 | MIT License | https://tailwindcss.com
+! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -566,10 +566,6 @@ video {
   100% {
     transform: scale(100%, 100%);
   }
-}
-
-.tw-row-span-2 {
-  grid-row: span 2 / span 2;
 }
 
 .tw-my-8 {
