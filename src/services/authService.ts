@@ -1,7 +1,7 @@
-const CLIENT_ID = '382c808854a74b2fa89465852f1410ee';
+const CLIENT_ID = import.meta.env.VITE_CLIENT_ID;
 const SCOPE =
   'user-read-email user-top-read user-follow-read user-read-recently-played';
-const REDIRECT_URI = `${location.origin}/viewer`;
+const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
 
 const BASE_URL = 'https://accounts.spotify.com';
 const TOKEN_ENDPOINT = `${BASE_URL}/api/token`;
