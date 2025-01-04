@@ -96,10 +96,10 @@ export default function Viewer() {
 
   if (!localStorage.getItem('access_token')) navigate('/');
 
-  const isLoading = (...loadingStatuses: boolean[]): boolean => {
-    if (!loadingStatuses.length)
+  const isFetching = (...fetchingStatuses: boolean[]): boolean => {
+    if (!fetchingStatuses.length)
       throw new Error('At least one argument must be provided');
-    return loadingStatuses.some((i) => i);
+    return fetchingStatuses.some((i) => i);
   };
 
   const Content = () => (
@@ -163,10 +163,10 @@ export default function Viewer() {
     <>
       <Header />
       <Container id={CONTAINER_ID}>
-        {isLoading(
-          userData.isLoading,
-          topArtists.isLoading,
-          topSongs.isLoading
+        {isFetching(
+          userData.isFetching,
+          topArtists.isFetching,
+          topSongs.isFetching
         ) ? (
           <Loader scale={1.5} />
         ) : (
